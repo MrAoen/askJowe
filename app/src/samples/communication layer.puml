@@ -1,0 +1,6 @@
+@startuml
+firebase -> android : {"AuthRequestId":UUID}
+android -> back : {"AuthRequestId":UUID,"CustomerId":UUID}
+back -> android : {...."BodyParams":\n   {....\n\t"Merch":String,\n\t"Title":String\n    ....}\n....}
+android -> back : {"AuthRequestId":UUID,\n"CustomerId":UUID,\n"Approved":Bool}
+@enduml

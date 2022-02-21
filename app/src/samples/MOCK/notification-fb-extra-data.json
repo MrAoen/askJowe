@@ -1,0 +1,10 @@
+{
+  "Title": "Title(string)",
+  "MsgText" :"MsgText(string)",
+  "TypeParams": "AuthRequest",
+  "BodyParams": {
+  "Id":"e0e7b016-de0d-4ad4-9b78-8583825e1b8e",
+  "CustomerId ":"23286070-f1cc-451d-b666-946f70647ce1",
+  "Merch": "Merch(string)"
+}
+}

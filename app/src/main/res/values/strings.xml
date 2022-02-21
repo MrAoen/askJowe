@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">askJowe</string>
+    <string name="lic_agree_label">I agree to &lt;a href=\"google.com\"&gt;Terms &amp;  Conditions &lt;/a&gt; and Privacy Policy</string>
+    <string name="enter_email">Your e-mail</string>
+    <string name="btn_page1_submit">Next</string>
+    <string name="fb_notify_title_message">Notify title</string>
+    <string name="default_notification_channel_id">askJoweChanel</string>
+    <string name="msg_token_fmt">FB registration token: %s</string>
+    <string name="instruction_step3">Hello blank fragment</string>
+    <string name="stp1_connection_problem">Can\'t connect to server</string>
+    <string name="stp1_usr_token_problem">exist user has no token returned</string>
+    <string name="back_err_connection">unable connect remote service</string>
+    <string name="loading_string">Loading…</string>
+    <string name="REG_S1_error">wrong e-mail or need Terms agree</string>
+    <string name="chanel_description">some interesting events</string>
+    <string name="Auth_request_failure">Something goes wrong! Try again later</string>
+    <string name="Auth_request_success">Login successfully created</string>
+    <string name="Auth_request_success_1">Now you can use it on our service</string>
+    <string name="logo_description">logo</string>
+    <string name="agree">Agree</string>
+    <string name="demiss">Demiss</string>
+    <string name="loading">Loading...</string>
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registartion_step_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_bg"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
+    tools:context=".ui.RegistrationStep1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="top|start"
+            android:contentDescription="@string/logo_description"
+            app:srcCompat="@drawable/logo_pic_foreground" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="48dp"
+        android:textColorHint="@color/white"
+        android:id="@+id/fld_email">
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/enter_email"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        style="@style/Theme.AskJowe.TextField"
+        />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/licenseAgree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="128dp"
+        android:text="@string/lic_agree_label"
+        android:textColor="@color/white"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btn_get_token"
+        style="@style/Theme.AskJowe.Button"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/round_shape_button"
+        android:text="@string/btn_page1_submit"
+        android:theme="@style/Theme.AskJowe.Button"/>
+
+</FrameLayout>

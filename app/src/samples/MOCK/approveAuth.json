@@ -1,0 +1,5 @@
+{
+  "AuthRequestId": "58993648-403d-48b9-bb03-b54952c8757b",//из нотика тело
+  "CustomerId": "3afb3f79-fd56-43fa-8323-9a4778dc8187",//ответ из бэка на рег
+  "Approved": true
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "key": "firstName",
+    "placeholder": "first name",
+    "regexp": "^.{3,}$",
+    "label": "First name",
+    "required": true,
+    "inputtype": "EditText"
+  },
+  {
+    "key": "lastName",
+    "placeholder": "last name",
+    "regexp": "^.{3,}$",
+    "label": "Last name",
+    "required": false,
+    "inputtype": "EditText"
+  },
+  {
+    "key": "phoneNumber",
+    "placeholder": "+000(00)0000000",
+    "regexp": "^\\+[0-9]{3}\\s?\\((\\d+)\\).?\\d{3}.?\\d{2}.?\\d{2}",
+    "label": "Phone number",
+    "required": true,
+    "type": "phone",
+    "inputtype": "EditText"
+  },
+  {
+    "key": "nickName",
+    "placeholder": "nick...",
+    "regexp": "^.{3,}$",
+    "label": "Nickname",
+    "required": true,
+    "type": "",
+    "inputtype": "EditText"
+  },
+  {
+    "key": "reg_btn",
+    "placeholder": "",
+    "regexp": ".*",
+    "label": "Register",
+    "required": true,
+    "inputtype": "Button"
+  },
+  {
+    "key": "later_btn",
+    "placeholder": "",
+    "regexp": ".*",
+    "label": "Later",
+    "required": true,
+    "inputtype": "Button"
+  }
+]

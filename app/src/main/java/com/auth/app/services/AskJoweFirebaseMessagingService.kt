@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import com.auth.app.App
 import com.auth.app.app.BACKOFFICE_ADS_ID
+import com.auth.app.app.TOKEN_TAG
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -12,7 +13,7 @@ class AskJoweFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
-        App.prefs.edit()?.putString("token", token)?.apply()
+        App.prefs.edit()?.putString(TOKEN_TAG, token)?.apply()
         super.onNewToken(token)
     }
 
@@ -24,7 +25,6 @@ class AskJoweFirebaseMessagingService : FirebaseMessagingService() {
 
         startService(Intent(this, NotificationService::class.java).apply {
             this.action = BACKOFFICE_ADS_ID
-            //remoteMessage.notification.body
             this.putExtra("id", remoteMessage.data.get(BACKOFFICE_ADS_ID))
         })
 

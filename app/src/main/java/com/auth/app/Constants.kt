@@ -7,4 +7,5 @@ const val DEMISS_ACTION = "com.auth.app.DEMISS_QUESTION"
 const val REGISTARTION_INFO = "registration"
 const val REGISTRATION_DELAYED = "registration_later"
 const val APP_NOTIFICATION_ID = 1
-const val BACKOFFICE_ADS_ID = "AuthRequestId"
+const val BACKOFFICE_ADS_ID = "bodyParams"
+const val TOKEN_TAG = "token"

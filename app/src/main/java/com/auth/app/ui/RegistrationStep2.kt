@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import com.airbnb.paris.extensions.style
 import com.auth.app.App
 import com.auth.app.R
+import com.auth.app.app.TOKEN_TAG
 import com.auth.app.dto.RegistrationField
 import com.auth.app.model.RegistrationModel
 import com.google.android.material.snackbar.Snackbar
@@ -129,7 +130,6 @@ class RegistrationStep2 : Fragment() {
 
         }
 
-
         val id = View.generateViewId()
         dView?.id = id
         dView?.tag = item.key
@@ -167,6 +167,7 @@ class RegistrationStep2 : Fragment() {
         }
         regInfo.put("lang", resources.configuration.locale)
         regInfo.put("email", App.prefs.getString("email", ""))
+        regInfo.put("token", App.prefs.getString(TOKEN_TAG, ""))
         Log.i(TAG, regInfo.toString())
         model.registerMe(regInfo, tag)
         model.registrationProcessPassed.observe(viewLifecycleOwner) {
@@ -200,10 +201,6 @@ class RegistrationStep2 : Fragment() {
             littleText.text = getString(R.string.Auth_request_success_1)
             registrationStory.addView(littleText)
         }
-//        registrationStory.layoutParams = ViewGroup.LayoutParams(
-//            FrameLayout.LayoutParams.WRAP_CONTENT,
-//            FrameLayout.LayoutParams.WRAP_CONTENT
-//        )
     }
 
     private fun getViewClass(viewName: String): Class<*> {

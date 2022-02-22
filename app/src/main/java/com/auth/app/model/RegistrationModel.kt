@@ -165,8 +165,10 @@ class RegistrationModel(application: Application) : AndroidViewModel(application
             .registerKotlinModule()
             .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
             .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
-        val notification = mapper.readValue(incomeData,Notification::class.java)
-        adsData.value = notification.convert()
+        incomeData?.let {
+            val notification = mapper.readValue(incomeData, Notification::class.java)
+            adsData.value = notification.convert()
+        }
     }
 
     fun getAddsDataFromService(customerId: UUID, dataId: UUID?) {
@@ -219,9 +221,7 @@ class RegistrationModel(application: Application) : AndroidViewModel(application
                     }
                 }
             }
-
         }
-
     }
 
     companion object {

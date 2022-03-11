@@ -1,0 +1,14 @@
+{
+  "original_priority": "high",
+  "priority": "high",
+  "appName": "ProdArieResearch",
+  "bodyParams": "{\"Id\":\"20559607-1ac7-4c7e-90f6-720c30cc5874\",\"CustomerId\":\"e2902ab8-75ec-48c7-970a-2a58dc290370\",\"Merch\":\"custom Name\"}",
+  "body": "custom Name send RequestAuth",
+  "msgID": "4942983",
+  "title": "RequestAuth",
+  "msgTimeExpiration": "1646817311",
+  "delivered_priority": "high",
+  "content_available": "true",
+  "msgTimeSent": "1646817226",
+  "bodyType": "AuthRequest"
+}

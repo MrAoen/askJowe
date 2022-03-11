@@ -7,6 +7,7 @@ import com.auth.app.app.BACKOFFICE_ADS_ID
 import com.auth.app.app.TOKEN_TAG
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.json.JSONObject
 
 
 class AskJoweFirebaseMessagingService : FirebaseMessagingService() {
@@ -25,9 +26,12 @@ class AskJoweFirebaseMessagingService : FirebaseMessagingService() {
 
         startService(Intent(this, NotificationService::class.java).apply {
             this.action = BACKOFFICE_ADS_ID
-            this.putExtra("id", remoteMessage.data.get(BACKOFFICE_ADS_ID))
+            val jsonComplect = JSONObject();
+            remoteMessage.data.onEach {
+                jsonComplect.put(it.key,it.value)
+            }
+            this.putExtra("id", jsonComplect.toString())//remoteMessage.data.get(BACKOFFICE_ADS_ID))
         })
-
     }
 
     companion object {

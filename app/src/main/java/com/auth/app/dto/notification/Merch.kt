@@ -13,7 +13,7 @@ data class Merch(
     val merchName: String?,
 
     @JsonProperty("CustomerId")
-    val customerId: String?
+    val customerId: String?,
 
 //    @JsonProperty("URL")
 //    val url: String?,
@@ -23,13 +23,17 @@ data class Merch(
 //
 //    @JsonProperty("IsActive")
 //    val isActive: Boolean?
+
+    @JsonProperty("title")
+    val title:String?
+
 ): ConverterFactory<Ads> {
     override fun convert(): Ads {
         return converter(this)
     }
     companion object{
         fun converter(baseObject: Merch): Ads {
-            return Ads("", baseObject.merchName ?: "")
+            return Ads(baseObject.title?: "", baseObject.merchName ?: "")
         }
     }
 }

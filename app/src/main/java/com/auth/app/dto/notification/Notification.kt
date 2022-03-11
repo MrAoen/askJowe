@@ -16,65 +16,70 @@ import kotlin.reflect.full.memberProperties
 
 data class Notification(
 
-    @JsonProperty("Title")
-    val title: String,
-    @JsonProperty("MsgText")
-    val msgText: String?,
-//    @JsonProperty("TimePublish")
-//    val timePublish: Long?,
-//    @JsonProperty("TimeExpiration")
-//    val timeExpiration: Long?,
-//    @JsonProperty("Customers")
-//    val customers: String?,
-    @JsonProperty("TypeParams")
-    val typeParams: String?,
-
-    @JsonProperty("BodyParams")
+    @JsonProperty("original_priority")
+    val originalPriority: String?,
+    @JsonProperty("priority")
+    val priority: String?,
+    @JsonProperty("appName")
+    val appName: String?,
+    @JsonProperty("bodyParams")
     @JsonDeserialize(using = PayloadDeserializer::class)
-    val bodyParams: String,
+    val bodyParams: String?,
 
-//    @JsonProperty("AppName")
-//    val appName: String?,
-//    @JsonProperty("IsPriority")
-//    val isPriority: Boolean?,
-//    @JsonProperty("Lang")
-//    val lang: String?,
-//    @JsonProperty("ChooseSilentNoisePlatforms")
-//    val chooseSilentNoisePlatforms: ChooseSilentNoisePlatforms?
+    @JsonProperty("body")
+    val msgText: String?,
+    @JsonProperty("msgID")
+    val msgId: String?,
+    @JsonProperty("title")
+    val title: String?,
+    @JsonProperty("msgTimeExpiration")
+    val timeExpiration: Long?,
+    @JsonProperty("delivered_priority")
+    val deliveredPriority: String?,
+    @JsonProperty("content_available")
+    val contentAvailable: String?,
+    @JsonProperty("msgTimeSent")
+    val msgTimeSent: Long,
+    @JsonProperty("bodyType")
+    val bodyType: String?
 
-): ConverterFactory<Ads> {
+) : ConverterFactory<Ads> {
     override fun convert(): Ads {
         return converter(this)
     }
 
     companion object {
 
-        fun converter(baseObject:Notification):Ads{
-            val ads = Ads(baseObject.title, "")
-            val payloadClassName = baseObject.typeParams
+        fun converter(baseObject: Notification): Ads {
+            val ads = Ads("", "")
+            baseObject.title?.let { Ads(it, "") }
+            val payloadClassName = baseObject.bodyType
             val clazz: Class<*>? = findClass(payloadClassName)
             clazz?.let {
 
-                val subObject = jsonToClass(baseObject.bodyParams, clazz)
-                subObject::class.memberProperties.forEach {
-                    if (it.visibility == KVisibility.PUBLIC) {
-                        when {
-                            it.name.lowercase() == "title" -> {
-                                ads.title = it.getter.call(subObject) as String
-                            }
-                            //it.name.lowercase() == "body" -> {
-                            it.name.lowercase() == "merch" -> {
-                                ads.body = it.getter.call(subObject) as String
-                            }
-                            else -> {
-                                val subClazz: Class<*>? = findClass(it.name)
-                                subClazz?.apply {
-                                    val subString = it.getter.call(subObject) as String
-                                    val subObject2 = jsonToClass(subString, this)
-                                    val methodSetText: Method? = this.methods.firstOrNull {
-                                        it.name == "convert"
+                val subObject = baseObject.bodyParams?.let { it1 -> jsonToClass(it1, clazz) }
+                if (subObject != null) {
+                    subObject::class.memberProperties.forEach {
+                        if (it.visibility == KVisibility.PUBLIC) {
+                            when {
+                                it.name.lowercase() == "title" -> {
+                                    ads.title = it.getter.call(subObject) as String
+                                }
+                                //it.name.lowercase() == "body" -> {
+                                it.name.lowercase() == "merch" -> {
+                                    ads.body = it.getter.call(subObject) as String
+                                }
+                                else -> {
+                                    val subClazz: Class<*>? = findClass(it.name)
+                                    subClazz?.apply {
+                                        val subString = it.getter.call(subObject) as String
+                                        val subObject2 = jsonToClass(subString, this)
+                                        val methodSetText: Method? =
+                                            this.methods.firstOrNull { it2 ->
+                                                it2.name == "convert"
+                                            }
+                                        updateAds(ads, methodSetText?.invoke(subObject2) as Ads)
                                     }
-                                    updateAds(ads,methodSetText?.invoke(subObject2) as Ads)
                                 }
                             }
                         }
@@ -95,7 +100,7 @@ data class Notification(
             }
         }
 
-        private fun jsonToClass(baseObject: String, clazz: Class<*>?):Any {
+        private fun jsonToClass(baseObject: String, clazz: Class<*>?): Any {
             val mapper = jacksonObjectMapper()
                 .registerKotlinModule()
                 .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
@@ -114,11 +119,15 @@ data class Notification(
         }
 
         private fun findClass(payloadClassName: String?) = try {
-            Class.forName("com.auth.app.dto.notification.${payloadClassName?.replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(
-                    Locale.getDefault()
-                ) else it.toString()
-            }}")
+            Class.forName(
+                "com.auth.app.dto.notification.${
+                    payloadClassName?.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.getDefault()
+                        ) else it.toString()
+                    }
+                }"
+            )
         } catch (e: Exception) {
             null
         }

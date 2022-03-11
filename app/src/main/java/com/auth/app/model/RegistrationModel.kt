@@ -13,6 +13,7 @@ import com.auth.app.app.backOfficeEntry
 import com.auth.app.dto.Ads
 import com.auth.app.dto.ApproveAuth
 import com.auth.app.dto.RegistrationField
+import com.auth.app.dto.notification.Merch
 import com.auth.app.dto.notification.Notification
 import com.auth.app.services.RemoteApi
 import com.auth.app.utils.RemoteUtils
@@ -164,10 +165,15 @@ class RegistrationModel(application: Application) : AndroidViewModel(application
         val mapper = jacksonObjectMapper()
             .registerKotlinModule()
             .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
         incomeData?.let {
-            val notification = mapper.readValue(incomeData, Notification::class.java)
-            adsData.value = notification.convert()
+            val notification = mapper.readValue(incomeData,Notification::class.java)
+            val adsFromNotification = notification.convert()
+            if(adsFromNotification.title.isNullOrEmpty()){
+                adsFromNotification.title = notification.title ?: ""
+            }
+            adsData.value = adsFromNotification
         }
     }
 
@@ -208,7 +214,7 @@ class RegistrationModel(application: Application) : AndroidViewModel(application
         id?.let {
             val customerId = Utils().getCustomerId()
             customerId?.apply {
-                val result = ApproveAuth(UUID.fromString(it), this, choice)
+                val result = ApproveAuth(this, this, choice)
                 viewModelScope.launch {
                     val obj = RemoteUtils().getClient(backOfficeEntry)
                         .create(RemoteApi::class.java)

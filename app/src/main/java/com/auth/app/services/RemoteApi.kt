@@ -1,13 +1,14 @@
 package com.auth.app.services
 
-import com.auth.app.dto.ApproveAuth
 import com.auth.app.dto.RegistrationField
 import com.auth.app.dto.RegistrationResponce
 import com.auth.app.dto.notification.Notification
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -27,7 +28,12 @@ interface RemoteApi {
     @POST("adsdata")
     suspend fun getAdsData(@Body data: RequestBody): Response<List<Notification>>
 
+    @Headers(
+        "Content-Type: application/json"
+        //,"Content-Type: text/plain"
+
+    )
     @POST("api/v2/Action/ApprovedAuth")
-    suspend fun sendApproveAuth(@Body choise: ApproveAuth): Response<Void>
+    suspend fun sendApproveAuth(@Header("sign") sign:String, @Header("Content-Type") type:String, @Body choice: String): Response<Void>
 
 }

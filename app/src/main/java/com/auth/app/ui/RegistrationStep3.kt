@@ -6,9 +6,11 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import com.auth.app.App
 import com.auth.app.R
 import com.auth.app.model.RegistrationModel
 import com.auth.app.utils.PicassoImageGetter
@@ -31,6 +33,13 @@ class RegistrationStep3 : Fragment() {
         model.getCurrentRules()
         model.rules.observe(viewLifecycleOwner) {
             displayHtml(it)
+        }
+
+        val cleanBtn = view.findViewById<Button>(R.id.ClearButton)
+        cleanBtn.setOnClickListener {
+            App.prefs.edit()
+                .clear()
+                .apply()
         }
     }
 

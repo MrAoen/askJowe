@@ -1,7 +1,9 @@
 package com.auth.app.model
 
 import android.app.Application
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,10 +15,10 @@ import com.auth.app.app.backOfficeEntry
 import com.auth.app.dto.Ads
 import com.auth.app.dto.ApproveAuth
 import com.auth.app.dto.RegistrationField
-import com.auth.app.dto.notification.Merch
 import com.auth.app.dto.notification.Notification
 import com.auth.app.services.RemoteApi
 import com.auth.app.utils.RemoteUtils
+import com.auth.app.utils.Sign
 import com.auth.app.utils.Utils
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -25,8 +27,14 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.util.*
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.create
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.ByteString.Companion.encode
 import org.json.JSONObject
 
 
@@ -209,21 +217,33 @@ class RegistrationModel(application: Application) : AndroidViewModel(application
     }
 
     //replaced with ROOM maybe soon...
+    @RequiresApi(Build.VERSION_CODES.O)
     fun sendChoice(choice: Boolean) {
-        val id = App.prefs.getString(BACKOFFICE_ADS_ID, null)
+        val id = Utils().getAuthId()
         id?.let {
             val customerId = Utils().getCustomerId()
             customerId?.apply {
-                val result = ApproveAuth(this, this, choice)
+
+                val result = ApproveAuth(id, this, choice)
+                val mapper = jacksonObjectMapper()
+                    .registerKotlinModule()
+                    .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
+                    .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
+                val jsonBody = mapper.writeValueAsString(result)
+
                 viewModelScope.launch {
-                    val obj = RemoteUtils().getClient(backOfficeEntry)
-                        .create(RemoteApi::class.java)
-                        .sendApproveAuth(result)
-                    if (obj.isSuccessful) {
-                        App.prefs.edit().remove(BACKOFFICE_ADS_ID).apply()
-                        Log.d(TAG, "Choice successed sended")
-                    } else {
-                        Log.d(TAG, "Some problems with sending  choise $obj.body")
+                    val obj = Sign().getSign(jsonBody).let { itSign ->
+                        RemoteUtils().getHttpClient(backOfficeEntry)
+                            .create(RemoteApi::class.java)
+                            .sendApproveAuth(itSign,"application/json", jsonBody)
+                    }
+                    if (obj != null) {
+                        if (obj.isSuccessful) {
+                            App.prefs.edit().remove(BACKOFFICE_ADS_ID).apply()
+                            Log.d(TAG, "Choice successed sended")
+                        } else {
+                            Log.d(TAG, "Some problems with sending  choise ${obj.errorBody()?.string()}")
+                        }
                     }
                 }
             }

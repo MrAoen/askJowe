@@ -32,7 +32,7 @@ class ActionQuestion : AppCompatActivity() {
         if (adsId != null) {
             val userId = Utils().getCustomerId()
             userId?.let {
-                model.getAddsDataFromService(it, UUID.fromString(adsId))
+                model.getAddsDataFromService(it, adsId)
             }
         }
         updateUI()

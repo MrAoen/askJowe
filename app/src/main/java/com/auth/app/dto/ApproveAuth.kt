@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 
 data class ApproveAuth(
+
     @JsonProperty("authRequestId")
-    val AuthRequestId:UUID?,
+    val authRequestId:UUID?,
     @JsonProperty("customerId")
-    val CustomerId:UUID,
+    val customerId:UUID,
     @JsonProperty("approved")
-    val Approved:Boolean?
+    val approved:Boolean?
 )

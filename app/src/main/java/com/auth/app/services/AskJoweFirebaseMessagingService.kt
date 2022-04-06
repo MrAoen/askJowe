@@ -26,11 +26,11 @@ class AskJoweFirebaseMessagingService : FirebaseMessagingService() {
 
         startService(Intent(this, NotificationService::class.java).apply {
             this.action = BACKOFFICE_ADS_ID
-            val jsonComplect = JSONObject();
+            val jsonComplete = JSONObject();
             remoteMessage.data.onEach {
-                jsonComplect.put(it.key,it.value)
+                jsonComplete.put(it.key,it.value)
             }
-            this.putExtra("id", jsonComplect.toString())//remoteMessage.data.get(BACKOFFICE_ADS_ID))
+            this.putExtra("id", jsonComplete.toString())//remoteMessage.data.get(BACKOFFICE_ADS_ID))
         })
     }
 

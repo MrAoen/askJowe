@@ -1,6 +1,6 @@
 package com.auth.app.app
 
-const val backOfficeEntry = "http://3.16.90.124/"
+const val backOfficeEntry = "http://3.16.90.124/"//"https://back.ukrkosher.com/"//
 const val NOTIFICATION_ID = 1
 const val ACCEPT_ACTION = "com.auth.app.ACCEPT_QUESTION"
 const val DEMISS_ACTION = "com.auth.app.DEMISS_QUESTION"

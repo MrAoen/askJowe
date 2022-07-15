@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">askJowe</string>
+    <string name="app_name">Single Secure Key</string>
     <string name="lic_agree_label">I agree to &lt;a href=\"google.com\"&gt;Terms &amp;  Conditions &lt;/a&gt; and Privacy Policy</string>
     <string name="enter_email">Your e-mail</string>
     <string name="btn_page1_submit">Next</string>
@@ -19,6 +19,6 @@
     <string name="logo_description">logo</string>
     <string name="agree">Agree</string>
     <string name="demiss">Demiss</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="clean_clear"><![CDATA[Clean & Clear]]></string>
 </resources>
